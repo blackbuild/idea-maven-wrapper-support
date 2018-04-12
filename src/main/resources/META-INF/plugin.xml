@@ -1,0 +1,23 @@
+<idea-plugin>
+    <id>com.blackbuild.intellij.maven-wrapper-support</id>
+    <name>Maven Wrapper support</name>
+
+    <description><![CDATA[
+    Plugin to automatically use a configured Maven Wrapper if present.
+    ]]></description>
+
+    <depends>org.jetbrains.idea.maven</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+    <project-components>
+        <component>
+            <implementation-class>com.blackbuild.intellij.wavenwrappersupport.MavenWrapperProjectComponent</implementation-class>
+        </component>
+    </project-components>
+</idea-plugin>
