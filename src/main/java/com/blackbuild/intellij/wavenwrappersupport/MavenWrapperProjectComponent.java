@@ -26,11 +26,12 @@ public class MavenWrapperProjectComponent extends AbstractProjectComponent {
         super(project);
     }
 
-    private void applyWrapper() {
+    void applyWrapper() {
         if (wrapperSettings == null)
             return;
 
-        WrapperExecutor wrapperExecutor = WrapperExecutor.forWrapperPropertiesFile(new File(wrapperSettings.getPath()), System.out);
+        StringBuilder output = new StringBuilder(); // not actually used right now
+        WrapperExecutor wrapperExecutor = WrapperExecutor.forWrapperPropertiesFile(new File(wrapperSettings.getPath()), output);
         Installer installer = new Installer(new DefaultDownloader("mvnw", "0.4.0"), new PathAssembler());
 
         File mavenHome;
@@ -45,11 +46,10 @@ public class MavenWrapperProjectComponent extends AbstractProjectComponent {
         if (generalSettings != null) {
             generalSettings.setMavenHome(mavenHome.getAbsolutePath());
             PluginManager.getLogger().info("Maven Instance set to Wrapper");
-            // generalSettings.setUserSettingsFile(mavenHome.getAbsolutePath() + "/conf/settings.xml");
         }
     }
 
-    private void unapplyWrapper() {
+    void unapplyWrapper() {
         MavenGeneralSettings generalSettings = MavenProjectsManager.getInstance(myProject).getGeneralSettings();
         if (generalSettings != null) {
             generalSettings.setMavenHome(MavenServerManager.BUNDLED_MAVEN_3);
@@ -76,8 +76,10 @@ public class MavenWrapperProjectComponent extends AbstractProjectComponent {
 
         @Override
         public void fileDeleted(@NotNull VirtualFileEvent event) {
-            if (event.getFile().equals(wrapperSettings))
+            if (event.getFile().equals(wrapperSettings)) {
                 wrapperSettings = null;
+                unapplyWrapper();
+            }
         }
     }
 
