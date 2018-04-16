@@ -55,7 +55,8 @@ public class MavenWrapperProjectComponent extends AbstractProjectComponent {
 
         StringBuilder output = new StringBuilder(); // not actually used right now
         WrapperExecutor wrapperExecutor = WrapperExecutor.forWrapperPropertiesFile(new File(wrapperSettings.getPath()), output);
-        Installer installer = new Installer(new DefaultDownloader("mvnw", "0.4.0"), new PathAssembler());
+        File mavenUserHome = new File(System.getProperty("user.home") + "/.m2");
+        Installer installer = new Installer(new DefaultDownloader("mvnw", "0.4.0"), new PathAssembler(mavenUserHome));
 
         File mavenHome;
         try {
