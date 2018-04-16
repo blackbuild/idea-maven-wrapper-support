@@ -1,13 +1,35 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath 'com.netflix.nebula:gradle-contacts-plugin:3.0.1'
+        classpath 'com.netflix.nebula:nebula-release-plugin:6.0.2'
+        classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.14.0"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
+    }
+}
+
 plugins {
     id 'org.jetbrains.intellij' version '0.3.1'
 }
 
 group 'com.blackbuild.intellij'
-version '0.2.0-SNAPSHOT'
 
-apply plugin: 'java'
+ext.isReleaseVersion = !version.endsWith("-SNAPSHOT")
 
-sourceCompatibility = 1.8
+apply plugin: 'java-library'
+apply plugin: 'jacoco'
+apply plugin: 'nebula.release'
+apply plugin: 'license'
+apply plugin: "org.sonarqube"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -22,6 +44,7 @@ intellij {
     version '2017.1'
     plugins 'maven'
 }
+
 patchPluginXml {
     untilBuild "181.*"
 
