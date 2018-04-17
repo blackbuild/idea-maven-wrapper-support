@@ -95,6 +95,8 @@ public class MavenWrapperProjectComponent extends AbstractProjectComponent {
                 return;
             if (!event.getFile().getPath().endsWith("/.mvn/wrapper/maven-wrapper.properties"))
                 return;
+            if (!myProject.isInitialized())
+                return;
             wrapperSettings = myProject.getBaseDir().findFileByRelativePath(".mvn/wrapper/maven-wrapper.properties");
         }
 
