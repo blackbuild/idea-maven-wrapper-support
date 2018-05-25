@@ -41,7 +41,6 @@ dependencies {
 }
 
 intellij {
-    version '2017.1'
     plugins 'maven'
 }
 
@@ -53,3 +52,11 @@ patchPluginXml {
       - update to 2018.2 EAP
     """
 }
+
+publishPlugin {
+    username findProperty("jetbrainsUsername")
+    password findProperty("jetbrainsPassword")
+    if (status != 'release') channels([status])
+}
+
+tasks.postRelease.dependsOn publishPlugin
