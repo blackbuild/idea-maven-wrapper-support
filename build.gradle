@@ -45,6 +45,7 @@ intellij {
 }
 
 patchPluginXml {
+    sinceBuild "171.*"
     untilBuild "182.*"
 
     changeNotes """
