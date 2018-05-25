@@ -23,8 +23,8 @@
  */
 package com.blackbuild.intellij.wavenwrappersupport;
 
-import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.components.AbstractProjectComponent;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileAdapter;
@@ -49,6 +49,8 @@ public class MavenWrapperProjectComponent extends AbstractProjectComponent {
         super(project);
     }
 
+    private Logger log = Logger.getInstance(this.getClass());
+
     void applyWrapper() {
         if (wrapperSettings == null)
             return;
@@ -62,14 +64,14 @@ public class MavenWrapperProjectComponent extends AbstractProjectComponent {
         try {
             mavenHome = installer.createDist(wrapperExecutor.getConfiguration());
         } catch (Exception e) {
-            PluginManager.getLogger().error(e);
+            log.error(e);
             return;
         }
 
         MavenGeneralSettings generalSettings = MavenProjectsManager.getInstance(myProject).getGeneralSettings();
         if (generalSettings != null) {
             generalSettings.setMavenHome(mavenHome.getAbsolutePath());
-            PluginManager.getLogger().info("Maven Instance set to Wrapper");
+            log.info("Maven Instance set to Wrapper");
         }
     }
 
@@ -77,7 +79,7 @@ public class MavenWrapperProjectComponent extends AbstractProjectComponent {
         MavenGeneralSettings generalSettings = MavenProjectsManager.getInstance(myProject).getGeneralSettings();
         if (generalSettings != null) {
             generalSettings.setMavenHome(MavenServerManager.BUNDLED_MAVEN_3);
-            PluginManager.getLogger().info("Maven Instance unset");
+            log.info("Maven Instance unset");
         }
     }
 
