@@ -56,7 +56,8 @@ patchPluginXml {
 publishPlugin {
     username findProperty("jetbrainsUsername")
     password findProperty("jetbrainsPassword")
-    if (status != 'release') channels([status])
+    def stage = getProperty("release.stage")
+    if (stage != 'final') channels(stage)
 }
 
 tasks.postRelease.dependsOn publishPlugin
