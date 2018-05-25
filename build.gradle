@@ -46,9 +46,10 @@ intellij {
 }
 
 patchPluginXml {
-    untilBuild "181.*"
+    untilBuild "182.*"
 
     changeNotes """
-      Initial version
+      - Switch to Event Log notifications
+      - update to 2018.2 EAP
     """
 }
