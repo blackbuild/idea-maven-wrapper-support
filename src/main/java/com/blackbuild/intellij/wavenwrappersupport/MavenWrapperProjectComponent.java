@@ -23,6 +23,9 @@
  */
 package com.blackbuild.intellij.wavenwrappersupport;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -51,36 +54,37 @@ public class MavenWrapperProjectComponent extends AbstractProjectComponent {
 
     private Logger log = Logger.getInstance(this.getClass());
 
-    void applyWrapper() {
+    private void applyWrapper() {
         if (wrapperSettings == null)
             return;
 
-        StringBuilder output = new StringBuilder(); // not actually used right now
+        StringBuilder output = new StringBuilder(); // not actually used by wrapper right now
         WrapperExecutor wrapperExecutor = WrapperExecutor.forWrapperPropertiesFile(new File(wrapperSettings.getPath()), output);
         File mavenUserHome = new File(System.getProperty("user.home") + "/.m2");
         Installer installer = new Installer(new DefaultDownloader("mvnw", "0.4.0"), new PathAssembler(mavenUserHome));
 
-        File mavenHome;
         try {
-            mavenHome = installer.createDist(wrapperExecutor.getConfiguration());
+            File mavenHome = installer.createDist(wrapperExecutor.getConfiguration());
+            changeMavenHomeTo(mavenHome.getAbsolutePath(), "maven wrapper defined in " + wrapperSettings.getPath());
         } catch (Exception e) {
             log.error(e);
-            return;
-        }
-
-        MavenGeneralSettings generalSettings = MavenProjectsManager.getInstance(myProject).getGeneralSettings();
-        if (generalSettings != null) {
-            generalSettings.setMavenHome(mavenHome.getAbsolutePath());
-            log.info("Maven Instance set to Wrapper");
         }
     }
 
-    void unapplyWrapper() {
+    private void changeMavenHomeTo(String mavenPath, String message) {
         MavenGeneralSettings generalSettings = MavenProjectsManager.getInstance(myProject).getGeneralSettings();
-        if (generalSettings != null) {
-            generalSettings.setMavenHome(MavenServerManager.BUNDLED_MAVEN_3);
-            log.info("Maven Instance unset");
-        }
+        if (generalSettings == null)
+            return;
+
+        String oldMavenHome = generalSettings.getMavenHome();
+
+        if (mavenPath.equals(oldMavenHome))
+            return;
+
+        generalSettings.setMavenHome(mavenPath);
+        log.info("Maven changed to " + message);
+        Notifications.Bus.notify(new Notification("maven-wrapper", "Maven changed", "Maven changed to " + message, NotificationType.INFORMATION));
+
     }
 
     class ChangeListener extends VirtualFileAdapter {
@@ -106,7 +110,7 @@ public class MavenWrapperProjectComponent extends AbstractProjectComponent {
         public void fileDeleted(@NotNull VirtualFileEvent event) {
             if (event.getFile().equals(wrapperSettings)) {
                 wrapperSettings = null;
-                unapplyWrapper();
+                changeMavenHomeTo(MavenServerManager.BUNDLED_MAVEN_3, "Bundled Maven 3");
             }
         }
     }
