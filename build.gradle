@@ -15,7 +15,7 @@ buildscript {
 }
 
 plugins {
-    id 'org.jetbrains.intellij' version '0.3.1'
+    id 'org.jetbrains.intellij' version '0.3.11'
 }
 
 group 'com.blackbuild.intellij'
@@ -46,11 +46,10 @@ intellij {
 
 patchPluginXml {
     sinceBuild "171.*"
-    untilBuild "182.*"
+    untilBuild "183.*"
 
     changeNotes """
-      - Switch to Event Log notifications
-      - update to 2018.2 EAP
+      - update to 2018.3 EAP
     """
 }
 
