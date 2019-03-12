@@ -46,10 +46,10 @@ intellij {
 
 patchPluginXml {
     sinceBuild "171.*"
-    untilBuild "183.*"
+    untilBuild "191.*"
 
     changeNotes """
-      - update to 2018.3 EAP
+      - update to 2019.1 EAP
     """
 }
 
