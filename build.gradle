@@ -20,8 +20,6 @@ plugins {
 
 group 'com.blackbuild.intellij'
 
-ext.isReleaseVersion = !version.endsWith("-SNAPSHOT")
-
 apply plugin: 'java-library'
 apply plugin: 'jacoco'
 apply plugin: 'nebula.release'
