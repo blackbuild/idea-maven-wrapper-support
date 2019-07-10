@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.netflix.nebula:gradle-contacts-plugin:3.0.1'
-        classpath 'com.netflix.nebula:nebula-release-plugin:6.0.2'
+        classpath 'com.netflix.nebula:nebula-release-plugin:6.3.5'
         classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.14.0"
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
     }
