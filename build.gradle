@@ -52,8 +52,7 @@ patchPluginXml {
 }
 
 publishPlugin {
-    username findProperty("jetbrainsUsername")
-    password findProperty("jetbrainsPassword")
+    token findProperty("jetbrainsToken")
     def stage = findProperty("release.stage") ?: "dev"
     if (stage != 'final') channels(stage)
 }
