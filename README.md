@@ -1,6 +1,6 @@
-# No longer in use
+# Deprecation notice
 
-In version 2020.2 of IDEA, native Maven Wrapper support has been included, therefore this plugin will no longer be updated.
+In version 2020.2 of IDEA, native Maven Wrapper support has been included, therefore this plugin is considered deprecated.
 
 Include Maven-Wrapper (https://github.com/takari/maven-wrapper) support in
 IDEA.
