@@ -44,10 +44,10 @@ intellij {
 
 patchPluginXml {
     sinceBuild "171.*"
-    untilBuild "201.*"
+    untilBuild "203.*"
 
     changeNotes """
-      - update to work on 2020.1 versions
+      - update to work on 2020.3 versions
     """
 }
 
